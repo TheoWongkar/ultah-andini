@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zombie Ganas</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Creepster", serif;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Glitch effect */
+        .glitch {
+            position: relative;
+            display: inline-block;
+            font-size: 2rem;
+            animation: glitch 0.5s infinite;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: -2px -2px 0 red, 2px 2px 0 blue;
+            }
+
+            50% {
+                text-shadow: 2px -2px 0 red, -2px 2px 0 blue;
+            }
+
+            100% {
+                text-shadow: -2px 2px 0 red, 2px -2px 0 blue;
+            }
+        }
+
+        /* Shake animation */
+        .shake {
+            animation: shake 0.5s ease-in-out infinite;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="bg-music" loop>
+        <source src="assets/audio/horor-bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="step1" class="container"
+        style="background-image: url('https://i.pinimg.com/originals/ef/b0/6d/efb06dc68eb901f268743c33d7af363d.gif');">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1 id="title1" class="glitch"></h1>
+            <p id="text1"></p>
+            <p id="text2"></p>
+        </div>
+    </div>
+
+    <div id="step2" class="container hidden"
+        style="background-image: url('https://i.pinimg.com/736x/c9/40/be/c940be7976f98bcaeb01afc6d21a60db.jpg');">
+        <div class="overlay"></div>
+        <div class="content">
+            <h2 id="title2" class="glitch"></h2>
+            <a href="birthday-gift.html" id="doorButton" class="hidden"
+                style="font-size: 80px; display: block; text-decoration: none;">🚪</a>
+            <p id="text3"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const audio = document.getElementById("bg-music");
+            let isStarted = false;
+            document.addEventListener("click", function () {
+                if (!isStarted) {
+                    isStarted = true;
+                    audio.play().catch(err => console.log("Autoplay gagal:", err));
+                    startStep1();
+                }
+            }, { once: true });
+        });
+
+        function typeWriterEffect(element, text, speed, callback) {
+            let index = 0;
+            element.style.opacity = 1;
+            function type() {
+                if (index < text.length) {
+                    element.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    setTimeout(callback, 1000);
+                }
+            }
+            type();
+        }
+
+        function startStep1() {
+            const title1 = document.getElementById("title1");
+            const text1 = document.getElementById("text1");
+            const text2 = document.getElementById("text2");
+
+            typeWriterEffect(title1, "Selamat Datang...", 150, function () {
+                typeWriterEffect(text1, '"Mereka tidak butuh udara, tidak butuh istirahat... hanya butuh daging segar."', 100, function () {
+                    typeWriterEffect(text2, '"Lari secepat mungkin, atau jadilah salah satu dari mereka."', 100, function () {
+                        setTimeout(showStep2, 2000);
+                    });
+                });
+            });
+        }
+
+        function showStep2() {
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step2").classList.remove("hidden");
+
+            const title2 = document.getElementById("title2");
+            const text3 = document.getElementById("text3");
+            const doorButton = document.getElementById("doorButton");
+
+            typeWriterEffect(title2, "Tpe cinta pa ngana rupa zombie... mati pun tetap mo ba dusu. 🧟‍♂️❤️", 150, function () {
+                typeWriterEffect(text3, "kalau ngna so siap tindis jo tombol pintu", 100, function () {
+                    setTimeout(() => {
+                        doorButton.classList.remove("hidden");
+                        doorButton.classList.add("shake");
+                    }, 1000);
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
